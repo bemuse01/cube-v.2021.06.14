@@ -1,4 +1,5 @@
 import APP from '../application/app/app.build.js'
+import CUBE from '../application/cube/cube.build.js'
 
 new Vue({
     el: '#wrap',
@@ -41,6 +42,10 @@ new Vue({
             }
         },
         createObject(app){
+            this.createCube()
+        },
+        createCube(){
+            OBJECT.cube = new CUBE()
         },
 
 

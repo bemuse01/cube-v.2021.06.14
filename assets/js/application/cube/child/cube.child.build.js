@@ -20,6 +20,7 @@ export default class{
 
         this.position = []
         this.cube = []
+        this.degree = 0
     }
 
 
@@ -33,8 +34,13 @@ export default class{
     create(){
         this.local = new THREE.Group()
 
-        for(let i = 0; i < this.param.count ** this.param.count; i++){
+        // for(let i = 0; i < this.param.count ** this.param.count; i++){
+        for(let i = 0; i < 1; i++){
+            const mesh = this.createMesh()
 
+            mesh.position.x = 200
+
+            this.local.add(mesh)
         }
     }
     createMesh(){

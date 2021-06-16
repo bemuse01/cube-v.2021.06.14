@@ -1,4 +1,6 @@
 import * as THREE from '../../lib/three.module.js'
+import CHILD from './child/cube.child.build.js'
+import PUBLIC_METHOD from '../../method/method.js'
 
 export default class{
     constructor(){
@@ -18,6 +20,7 @@ export default class{
         }
 
         this.modules = {
+            child: CHILD
         }
 
         this.initGroup()
@@ -50,8 +53,8 @@ export default class{
                 h: height
             },
             obj: {
-                w: METHOD.getVisibleWidth(this.camera, 0),
-                h: METHOD.getVisibleHeight(this.camera, 0)
+                w: PUBLIC_METHOD.getVisibleWidth(this.camera, 0),
+                h: PUBLIC_METHOD.getVisibleHeight(this.camera, 0)
             }
         }
     }
@@ -66,12 +69,12 @@ export default class{
 
 
     // create
-    create({renderer}){
+    create(){
         for(const module in this.modules){
             const instance = this.modules[module]
             const group = this.group[module]
 
-            this.comp[module] = new instance({group, renderer, size: this.size.obj})
+            this.comp[module] = new instance({group, size: this.size.obj})
         }
     }
 
@@ -117,8 +120,8 @@ export default class{
                 h: height
             },
             obj: {
-                w: METHOD.getVisibleWidth(this.camera, 0),
-                h: METHOD.getVisibleHeight(this.camera, 0)
+                w: PUBLIC_METHOD.getVisibleWidth(this.camera, 0),
+                h: PUBLIC_METHOD.getVisibleHeight(this.camera, 0)
             }
         }
 
