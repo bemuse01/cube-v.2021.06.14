@@ -58,6 +58,7 @@ new Vue({
         // render
         render(){
             this.renderThree()
+            TWEEN.update()
         },
         animate(){
             this.render()

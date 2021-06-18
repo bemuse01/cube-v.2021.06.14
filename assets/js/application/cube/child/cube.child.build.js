@@ -37,12 +37,13 @@ export default class{
             gap: 30,
             count: 3,
             color: 'white',
-
+            time: 1000
         }
 
         this.position = []
         this.cube = []
         this.degree = 0
+        this.play = false
     }
 
 
@@ -72,6 +73,8 @@ export default class{
 
             this.local.add(mesh)
         })
+
+        this.createTween(this.index)
     }
     createMesh(){
         const geometry = this.createGeometry()
@@ -91,8 +94,33 @@ export default class{
     }
 
 
+    // tween
+    createTween(index){
+        for(let i = 0; i < index.length; i++){
+            const start = {degree: 0}
+            const end = {degree: 90}
+
+            const tween = new TWEEN.Tween(start)
+            .to(end, this.param.time)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(() => this.onUpdateTween(index[i], start))
+            .onComplete(() => this.onCompleteTween(index[i]))
+            .delay(1000)
+            .start()
+        }
+    }
+    onUpdateTween(i, {degree}){
+        this.local.children[i].rotation.set(degree * RADIAN, 0, 0)
+    }
+    onCompleteTween(i){
+        this.local.children[i].rotation.set(0, 0, 0)
+        this.play = true
+    }
+
+
     // animate
     animate(){
+        if(!this.play) return
         // const mesh = this.local.children[0]
         // mesh.rotation.y += 0.01
         // this.local.rotation.x += 0.01
