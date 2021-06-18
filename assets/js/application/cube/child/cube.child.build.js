@@ -1,4 +1,5 @@
 import * as THREE from '../../../lib/three.module.js'
+import METHOD from './cube.child.method.js'
 
 THREE.Object3D.prototype.updateMatrix = function () {
 
@@ -33,7 +34,7 @@ export default class{
     init(){
         this.param = {
             size: 100,
-            gap: 25,
+            gap: 30,
             count: 3,
             color: 'white',
 
@@ -55,36 +56,55 @@ export default class{
     create(){
         this.local = new THREE.Group()
 
-        // for(let i = 0; i < this.param.count ** this.param.count; i++){
-        for(let i = 0; i < 1; i++){
+        const position = METHOD.getCubePosition(this.param)
+        this.index = [0, 3, 6, 9, 12, 15, 18, 21, 24]
+
+        position.forEach((e, i) => {
+            const {x, y, z} = e
+
             const mesh = this.createMesh()
 
-            mesh.position.x = 500
-            mesh.pivot = new THREE.Vector3(-500, 0, 0)
+            mesh.index = i
+            mesh.position.set(x, y, z) 
+
+            mesh.pivot = new THREE.Vector3(-x, -y, -z)
+            // if(i < 9) mesh.rotation.x = 90 * RADIAN
 
             this.local.add(mesh)
-        }
+        })
     }
     createMesh(){
         const geometry = this.createGeometry()
         const material = this.createMaterial()
-        return new THREE.Mesh(geometry, material)
+        return new THREE.LineSegments(geometry, material)
     }
     createGeometry(){
-        return new THREE.BoxGeometry(this.param.size, this.param.size, this.param.size)
+        const object = new THREE.BoxGeometry(this.param.size, this.param.size, this.param.size)
+        return new THREE.EdgesGeometry(object)
     }
     createMaterial(){
-        return new THREE.MeshBasicMaterial({
+        return new THREE.LineBasicMaterial({
             color: this.param.color,
             transparent: true,
-            wireframe: true
+            opacity: 0.5
         })
     }
 
 
     // animate
     animate(){
-        const mesh = this.local.children[0]
-        mesh.rotation.y += 0.01
+        // const mesh = this.local.children[0]
+        // mesh.rotation.y += 0.01
+        // this.local.rotation.x += 0.01
+        // this.local.rotation.y += 0.01
+
+        // this.local.children.forEach((e, i) => {
+        //     if(i < this.param.count ** 2) e.rotation.y += 0.01
+        // })
+
+        for(let i = 0; i < this.index.length; i++){
+            const mesh = this.local.children[this.index[i]]
+            mesh.rotation.x += 0.01
+        }
     }
 }

@@ -31,13 +31,5 @@ export default {
         const mid = Math.ceil(temp.length / 2)
         const median = temp.length % 2 === 0 ? (temp[mid] + temp[mid - 1]) / 2 : temp[mid - 1]
         return median
-    },
-    getSpherePosition(p, t, radius){
-        const phi = p * RADIAN
-        const theta = t * RADIAN
-        const x = radius * Math.sin(phi) * Math.cos(theta)
-        const y = radius * Math.cos(phi)
-        const z = radius * Math.sin(phi) * Math.sin(theta)
-        return {x, y, z}
     }
 }
