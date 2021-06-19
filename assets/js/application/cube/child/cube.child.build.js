@@ -27,6 +27,7 @@ export default class{
         this.init()
         this.create()
         this.add(group)
+        this.createTween(METHOD.getRandomPosition(this.param))
     }
 
 
@@ -37,7 +38,8 @@ export default class{
             gap: 30,
             count: 3,
             color: 'white',
-            time: 1000
+            time: 600,
+            delay: 300
         }
 
         this.position = []
@@ -74,7 +76,6 @@ export default class{
             this.local.add(mesh)
         })
 
-        this.createTween(this.index)
     }
     createMesh(){
         const geometry = this.createGeometry()
@@ -95,7 +96,7 @@ export default class{
 
 
     // tween
-    createTween(index){
+    createTween({index, dir}){
         for(let i = 0; i < index.length; i++){
             const start = {degree: 0}
             const end = {degree: 90}
@@ -103,36 +104,41 @@ export default class{
             const tween = new TWEEN.Tween(start)
             .to(end, this.param.time)
             .easing(TWEEN.Easing.Quadratic.Out)
-            .onUpdate(() => this.onUpdateTween(index[i], start))
-            .onComplete(() => this.onCompleteTween(index[i]))
-            .delay(1000)
+            .onUpdate(() => this.onUpdateTween(index[i], dir, start))
+            .onComplete(() => this.onCompleteTween(index[i], i))
+            .delay(this.param.delay)
             .start()
         }
     }
-    onUpdateTween(i, {degree}){
-        this.local.children[i].rotation.set(degree * RADIAN, 0, 0)
+    onUpdateTween(i, dir, {degree}){
+        if(dir === 0) this.local.children[i].rotation.y = degree * RADIAN
+        else if(dir === 1) this.local.children[i].rotation.x = degree * RADIAN
+        else this.local.children[i].rotation.z = degree * RADIAN
     }
-    onCompleteTween(i){
+    onCompleteTween(i, index){
         this.local.children[i].rotation.set(0, 0, 0)
-        this.play = true
+        if(index === this.param.count ** 2 - 1){
+            this.createTween(METHOD.getRandomPosition(this.param))
+        }
+        // this.play = true
     }
 
 
     // animate
     animate(){
-        if(!this.play) return
+        // if(!this.play) return
         // const mesh = this.local.children[0]
         // mesh.rotation.y += 0.01
-        // this.local.rotation.x += 0.01
-        // this.local.rotation.y += 0.01
+        this.local.rotation.x += 0.005
+        this.local.rotation.y += 0.005
 
         // this.local.children.forEach((e, i) => {
         //     if(i < this.param.count ** 2) e.rotation.y += 0.01
         // })
 
-        for(let i = 0; i < this.index.length; i++){
-            const mesh = this.local.children[this.index[i]]
-            mesh.rotation.x += 0.01
-        }
+        // for(let i = 0; i < this.index.length; i++){
+        //     const mesh = this.local.children[this.index[i]]
+        //     mesh.rotation.x += 0.01
+        // }
     }
 }

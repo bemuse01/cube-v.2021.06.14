@@ -1,9 +1,9 @@
 export default {
     createCubePosition(length, row){
         const arr = [], size = row * row
-        const x = [], y = [], z = []
         const start = Math.floor(row / 2)
         const init = {x: -start, y: start, z: start}
+        let x = [], y = [], z = []
         
         for(let i = 0; i < (row % 2 === 0 ? row + 1 : row); i++){
             x[i] = init.x++
@@ -45,11 +45,11 @@ export default {
 
         switch(dir){
             case 0:
-                return Array.from({length: size}, (e, i) => r * size + i)
+                return {index: Array.from({length: size}, (e, i) => r * size + i), dir}
             case 1: 
-                return Array.from({length: size}, (e, i) => r + i * 3)
+                return {index: Array.from({length: size}, (e, i) => r + i * count), dir}
             case 2: 
-                return Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count))
+                return {index: Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count)), dir}
         }
     }
 }
