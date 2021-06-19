@@ -38,4 +38,18 @@ export default {
 
         return arr
     },
+    getRandomPosition({count}){
+        const r = ~~(Math.random() * count)
+        const size = count ** 2
+        const dir = ~~(Math.random() * 3)
+
+        switch(dir){
+            case 0:
+                return Array.from({length: size}, (e, i) => r * size + i)
+            case 1: 
+                return Array.from({length: size}, (e, i) => r + i * 3)
+            case 2: 
+                return Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count))
+        }
+    }
 }
