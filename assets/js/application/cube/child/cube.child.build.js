@@ -38,6 +38,7 @@ export default class{
             gap: 30,
             count: 3,
             color: 'white',
+            opacity: 0.5,
             time: 600,
             delay: 300
         }
@@ -90,7 +91,7 @@ export default class{
         return new THREE.LineBasicMaterial({
             color: this.param.color,
             transparent: true,
-            opacity: 0.5
+            opacity: this.param.opacity
         })
     }
 
