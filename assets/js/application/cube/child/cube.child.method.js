@@ -51,5 +51,8 @@ export default {
             case 2: 
                 return {index: Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count)), dir}
         }
+    },
+    createCurrentPosition({count}){
+        
     }
 }
