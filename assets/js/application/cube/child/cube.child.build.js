@@ -2,23 +2,6 @@ import * as THREE from '../../../lib/three.module.js'
 import METHOD from './cube.child.method.js'
 import {Cube} from './cube.child.class.js'
 
-THREE.Object3D.prototype.updateMatrix = function () {
-    this.matrix.compose( this.position, this.quaternion, this.scale )
-
-    var pivot = this.pivot
-
-    if ( pivot != null ) {
-      var px = pivot.x, py = pivot.y, pz = pivot.z
-      var te = this.matrix.elements
-
-      te[ 12 ] += px - te[ 0 ] * px - te[ 4 ] * py - te[ 8 ] * pz
-      te[ 13 ] += py - te[ 1 ] * px - te[ 5 ] * py - te[ 9 ] * pz
-      te[ 14 ] += pz - te[ 2 ] * px - te[ 6 ] * py - te[ 10 ] * pz
-    }
-
-    this.matrixWorldNeedsUpdate = true
-}
-
 export default class{
     constructor({group}){
         this.init()
@@ -62,16 +45,14 @@ export default class{
         this.position.forEach((e, i) => {
             const {x, y, z} = e
 
+            const group = new THREE.Group() 
             const mesh = this.createMesh(i)
 
-            mesh.origin = i
-            mesh.change = 0
+            mesh.index = i
             mesh.position.set(x, y, z) 
 
-            mesh.pivot = new THREE.Vector3(-x, -y, -z)
-            // if(i < 9) mesh.rotation.x = 90 * RADIAN
-
-            this.local.add(mesh)
+            group.add(mesh)
+            this.local.add(group)
         })
 
     }
@@ -102,38 +83,36 @@ export default class{
             const tween = new TWEEN.Tween(start)
             .to(end, this.param.time)
             .easing(TWEEN.Easing.Quadratic.Out)
-            .onStart(() => this.onStartTween(index[i]))
+            .onStart(() => this.onStartTween())
             .onUpdate(() => this.onUpdateTween(index[i], dir, start))
             .onComplete(() => this.onCompleteTween(index[i], i))
             .delay(this.param.delay)
             .start()
         }
     }
-    onStartTween(i){
-        // const mesh = this.local.children.find(e => e.origin === i)
-        
+    onStartTween(){
     }
     onUpdateTween(i, dir, {degree}){
-        const mesh = this.local.children[i]
+        const group = this.local.children[i]
         
-        if(dir === 0) mesh.rotation.x = degree * RADIAN
-        else if(dir === 1) mesh.rotation.y = degree * RADIAN
-        else mesh.rotation.z = degree * RADIAN
+        if(dir === 0) group.rotation.x = degree * RADIAN
+        else if(dir === 1) group.rotation.y = degree * RADIAN
+        else group.rotation.z = degree * RADIAN
     }
     onCompleteTween(i, index){
-        // this.local.children[i].rotation.set(0, 0, 0)
+        this.local.children[i].rotation.set(0, 0, 0)
         if(index === this.param.count ** 2 - 1){
-            const flatten = this.cube.flatten()
+            // const flatten = this.cube.flatten()
 
-            for(let i = 0; i < this.param.count ** 3; i++){
-                const index = flatten[i]
-                const mesh = this.local.children.find(e => e.origin === index)
-                const {x, y, z} = this.position[i]
+            // for(let i = 0; i < this.param.count ** 3; i++){
+            //     const index = flatten[i]
+            //     const mesh = this.local.children.find(e => e.origin === index)
+            //     const {x, y, z} = this.position[i]
 
-                mesh.rotation.set(0, 0, 0)
-                mesh.position.set(x, y, z)
-                mesh.pivot = new THREE.Vector3(-x, -y, -z)
-            }
+            //     mesh.rotation.set(0, 0, 0)
+            //     mesh.position.set(x, y, z)
+            //     mesh.pivot = new THREE.Vector3(-x, -y, -z)
+            // }
 
             this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
         }
@@ -144,18 +123,7 @@ export default class{
     // animate
     animate(){
         // if(!this.play) return
-        // const mesh = this.local.children[0]
-        // mesh.rotation.y += 0.01
         // this.local.rotation.x += 0.005
         // this.local.rotation.y += 0.005
-
-        // this.local.children.forEach((e, i) => {
-        //     if(i < this.param.count ** 2) e.rotation.y += 0.01
-        // })
-
-        // for(let i = 0; i < this.index.length; i++){
-        //     const mesh = this.local.children[this.index[i]]
-        //     mesh.rotation.x += 0.01
-        // }
     }
 }
