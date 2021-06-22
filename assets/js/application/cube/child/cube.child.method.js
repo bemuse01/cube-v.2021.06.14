@@ -20,9 +20,8 @@ export default {
             z = z.map(e => e - Math.sign(e) * 1 / 2)
         }
 
-        console.log(x, y, z)
         for(let i = 0; i < length; i++) arr[i] = {x: x[i % row], y: y[Math.floor(i / size)], z: z[Math.floor((i % size) / row)]}
-        console.log(arr)
+        
         return arr
     },
     getCubePosition({count, gap, size}){
@@ -40,9 +39,11 @@ export default {
         return arr
     },
     getRandomPosition({count, cube}){
-        const r = ~~(Math.random() * count)
+        // const r = ~~(Math.random() * count)
+        const r = 0
         const size = count ** 2
-        const dir = ~~(Math.random() * 3)
+        // const dir = ~~(Math.random() * 3)
+        const dir = 0
 
         switch(dir){
             // X

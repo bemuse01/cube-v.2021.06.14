@@ -61,10 +61,9 @@ export default class{
     create(){
         this.local = new THREE.Group()
 
-        const position = METHOD.getCubePosition(this.param)
-        this.index = [0, 3, 6, 9, 12, 15, 18, 21, 24]
+        this.position = METHOD.getCubePosition(this.param)
 
-        position.forEach((e, i) => {
+        this.position.forEach((e, i) => {
             const {x, y, z} = e
 
             const mesh = this.createMesh(i)
@@ -75,6 +74,7 @@ export default class{
 
             mesh.pivot = new THREE.Vector3(-x, -y, -z)
             mesh.oPivot = new THREE.Vector3(-x, -y, -z)
+            mesh.rot = 0
             // if(i < 9) mesh.rotation.x = 90 * RADIAN
 
             this.local.add(mesh)
@@ -102,6 +102,7 @@ export default class{
     // tween
     createTween({index, dir}){
         for(let i = 0; i < index.length; i++){
+            // const mesh = this.local.children[index[i]]
             const start = {degree: 0}
             const end = {degree: 90}
 
@@ -117,7 +118,7 @@ export default class{
     }
     onStartTween(i){
         // const mesh = this.local.children.find(e => e.origin === i)
-
+        
     }
     onUpdateTween(i, dir, {degree}){
         if(dir === 0) this.local.children[i].rotation.x = degree * RADIAN
@@ -125,9 +126,20 @@ export default class{
         else this.local.children[i].rotation.z = degree * RADIAN
     }
     onCompleteTween(i, index){
-        this.local.children[i].rotation.set(0, 0, 0)
+        // this.local.children[i].rotation.set(0, 0, 0)
         if(index === this.param.count ** 2 - 1){
-            this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
+            const flatten = this.cube.flatten()
+
+            for(let i = 0; i < this.param.count ** 3; i++){
+                const index = flatten[i]
+                const mesh = this.local.children.find(e => e.origin === index)
+                const {x, y, z} = this.position[i]
+
+                mesh.position.set(x, y, z)
+                mesh.pivot = new THREE.Vector3(-x, -y, -z)
+            }
+            
+            // this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
         }
         // this.play = true
     }
