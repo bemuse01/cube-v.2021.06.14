@@ -69,10 +69,12 @@ export default class{
 
             const mesh = this.createMesh(i)
 
-            mesh.index = i
+            mesh.origin = i
+            mesh.change = 0
             mesh.position.set(x, y, z) 
 
             mesh.pivot = new THREE.Vector3(-x, -y, -z)
+            mesh.oPivot = new THREE.Vector3(-x, -y, -z)
             // if(i < 9) mesh.rotation.x = 90 * RADIAN
 
             this.local.add(mesh)
@@ -106,11 +108,16 @@ export default class{
             const tween = new TWEEN.Tween(start)
             .to(end, this.param.time)
             .easing(TWEEN.Easing.Quadratic.Out)
+            .onStart(() => this.onStartTween(index[i]))
             .onUpdate(() => this.onUpdateTween(index[i], dir, start))
             .onComplete(() => this.onCompleteTween(index[i], i))
             .delay(this.param.delay)
             .start()
         }
+    }
+    onStartTween(i){
+        // const mesh = this.local.children.find(e => e.origin === i)
+
     }
     onUpdateTween(i, dir, {degree}){
         if(dir === 0) this.local.children[i].rotation.x = degree * RADIAN
