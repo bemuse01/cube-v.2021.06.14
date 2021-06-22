@@ -48,7 +48,7 @@ export default class{
             const group = new THREE.Group() 
             const mesh = this.createMesh(i)
 
-            mesh.index = i
+            group.index = i
             mesh.position.set(x, y, z) 
 
             group.add(mesh)
@@ -106,12 +106,10 @@ export default class{
 
             // for(let i = 0; i < this.param.count ** 3; i++){
             //     const index = flatten[i]
-            //     const mesh = this.local.children.find(e => e.origin === index)
+            //     const mesh = this.local.children.find(e => e.index === index).children[0]
             //     const {x, y, z} = this.position[i]
 
-            //     mesh.rotation.set(0, 0, 0)
             //     mesh.position.set(x, y, z)
-            //     mesh.pivot = new THREE.Vector3(-x, -y, -z)
             // }
 
             this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
