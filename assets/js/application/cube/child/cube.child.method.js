@@ -39,11 +39,9 @@ export default {
         return arr
     },
     getRandomPosition({count, cube}){
-        // const r = ~~(Math.random() * count)
-        const r = 0
+        const r = ~~(Math.random() * count)
         const size = count ** 2
-        // const dir = ~~(Math.random() * 3)
-        const dir = 0
+        const dir = ~~(Math.random() * 3)
 
         switch(dir){
             // X

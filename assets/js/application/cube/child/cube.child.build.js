@@ -73,8 +73,6 @@ export default class{
             mesh.position.set(x, y, z) 
 
             mesh.pivot = new THREE.Vector3(-x, -y, -z)
-            mesh.oPivot = new THREE.Vector3(-x, -y, -z)
-            mesh.rot = 0
             // if(i < 9) mesh.rotation.x = 90 * RADIAN
 
             this.local.add(mesh)
@@ -102,7 +100,6 @@ export default class{
     // tween
     createTween({index, dir}){
         for(let i = 0; i < index.length; i++){
-            // const mesh = this.local.children[index[i]]
             const start = {degree: 0}
             const end = {degree: 90}
 
@@ -135,11 +132,12 @@ export default class{
                 const mesh = this.local.children.find(e => e.origin === index)
                 const {x, y, z} = this.position[i]
 
+                mesh.rotation.set(0, 0, 0)
                 mesh.position.set(x, y, z)
                 mesh.pivot = new THREE.Vector3(-x, -y, -z)
             }
-            
-            // this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
+
+            this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
         }
         // this.play = true
     }
