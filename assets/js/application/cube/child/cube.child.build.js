@@ -114,9 +114,11 @@ export default class{
         
     }
     onUpdateTween(i, dir, {degree}){
-        if(dir === 0) this.local.children[i].rotation.x = degree * RADIAN
-        else if(dir === 1) this.local.children[i].rotation.y = degree * RADIAN
-        else this.local.children[i].rotation.z = degree * RADIAN
+        const mesh = this.local.children[i]
+        
+        if(dir === 0) mesh.rotation.x = degree * RADIAN
+        else if(dir === 1) mesh.rotation.y = degree * RADIAN
+        else mesh.rotation.z = degree * RADIAN
     }
     onCompleteTween(i, index){
         // this.local.children[i].rotation.set(0, 0, 0)
