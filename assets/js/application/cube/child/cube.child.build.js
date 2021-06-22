@@ -67,7 +67,7 @@ export default class{
         position.forEach((e, i) => {
             const {x, y, z} = e
 
-            const mesh = this.createMesh()
+            const mesh = this.createMesh(i)
 
             mesh.index = i
             mesh.position.set(x, y, z) 
@@ -79,18 +79,18 @@ export default class{
         })
 
     }
-    createMesh(){
+    createMesh(i){
         const geometry = this.createGeometry()
-        const material = this.createMaterial()
+        const material = this.createMaterial(i)
         return new THREE.LineSegments(geometry, material)
     }
     createGeometry(){
         const object = new THREE.BoxGeometry(this.param.size, this.param.size, this.param.size)
         return new THREE.EdgesGeometry(object)
     }
-    createMaterial(){
+    createMaterial(i){
         return new THREE.LineBasicMaterial({
-            color: this.param.color,
+            color: i === 0 ? 'red' : this.param.color,
             transparent: true,
             opacity: this.param.opacity
         })
@@ -131,8 +131,8 @@ export default class{
         // if(!this.play) return
         // const mesh = this.local.children[0]
         // mesh.rotation.y += 0.01
-        this.local.rotation.x += 0.005
-        this.local.rotation.y += 0.005
+        // this.local.rotation.x += 0.005
+        // this.local.rotation.y += 0.005
 
         // this.local.children.forEach((e, i) => {
         //     if(i < this.param.count ** 2) e.rotation.y += 0.01

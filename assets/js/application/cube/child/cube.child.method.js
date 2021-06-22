@@ -2,26 +2,27 @@ export default {
     createCubePosition(length, row){
         const arr = [], size = row * row
         const start = Math.floor(row / 2)
-        const init = {x: -start, y: start, z: start}
+        const init = {x: -start, y: start, z: -start}
         let x = [], y = [], z = []
         
         for(let i = 0; i < (row % 2 === 0 ? row + 1 : row); i++){
             x[i] = init.x++
             y[i] = init.y--
-            z[i] = init.z--
+            z[i] = init.z++
         }
 
         if(row % 2 === 0) {
             x.splice(start, 1)
             y.splice(start, 1)
             z.splice(start, 1)
-            x = x.map(x => x - Math.sign(x) * 1 / 2)
-            y = y.map(x => x - Math.sign(x) * 1 / 2)
-            z = z.map(x => x - Math.sign(x) * 1 / 2)
+            x = x.map(e => e - Math.sign(e) * 1 / 2)
+            y = y.map(e => e - Math.sign(e) * 1 / 2)
+            z = z.map(e => e - Math.sign(e) * 1 / 2)
         }
 
+        console.log(x, y, z)
         for(let i = 0; i < length; i++) arr[i] = {x: x[i % row], y: y[Math.floor(i / size)], z: z[Math.floor((i % size) / row)]}
-
+        console.log(arr)
         return arr
     },
     getCubePosition({count, gap, size}){
