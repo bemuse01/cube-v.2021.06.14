@@ -1,5 +1,6 @@
 import * as THREE from '../../../lib/three.module.js'
 import METHOD from './cube.child.method.js'
+import {Cube} from './cube.child.class.js'
 
 THREE.Object3D.prototype.updateMatrix = function () {
 
@@ -27,7 +28,7 @@ export default class{
         this.init()
         this.create()
         this.add(group)
-        this.createTween(METHOD.getRandomPosition(this.param))
+        this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
     }
 
 
@@ -44,7 +45,7 @@ export default class{
         }
 
         this.position = []
-        this.cube = []
+        this.cube = new Cube(this.param.count)
         this.degree = 0
         this.play = false
     }
@@ -112,14 +113,14 @@ export default class{
         }
     }
     onUpdateTween(i, dir, {degree}){
-        if(dir === 0) this.local.children[i].rotation.y = degree * RADIAN
-        else if(dir === 1) this.local.children[i].rotation.x = degree * RADIAN
+        if(dir === 0) this.local.children[i].rotation.x = degree * RADIAN
+        else if(dir === 1) this.local.children[i].rotation.y = degree * RADIAN
         else this.local.children[i].rotation.z = degree * RADIAN
     }
     onCompleteTween(i, index){
         this.local.children[i].rotation.set(0, 0, 0)
         if(index === this.param.count ** 2 - 1){
-            this.createTween(METHOD.getRandomPosition(this.param))
+            this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
         }
         // this.play = true
     }

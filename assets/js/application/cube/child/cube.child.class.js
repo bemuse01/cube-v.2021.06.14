@@ -4,8 +4,7 @@ class Cube{
         this.cube = Array.from({length: size}, (_, i) => Array.from({length: size ** 2}, (_, j) => i * (size ** 2) + j))
     }
 
-    rotateX(direction = 1){
-        const r = ~~(Math.random() * this.size)
+    rotateX(r, direction = 1){
         const temp = Array.from({length: this.size}, () => [])
 
         this.cube.forEach((story, i) => {
@@ -25,8 +24,7 @@ class Cube{
         console.log(this.cube)
     }
 
-    rotateY(direction = 1){
-        const r = ~~(Math.random() * this.size)
+    rotateY(r, direction = 1){
         const temp = []
 
         for(let i = 0; i < this.size; i++){
@@ -44,8 +42,7 @@ class Cube{
         console.log(this.cube)
     }
 
-    rotateZ(direction = 1){
-        const r = ~~(Math.random() * this.size)
+    rotateZ(r, direction = 1){
         const temp = []
 
         for(let i = 0; i < this.size; i++){

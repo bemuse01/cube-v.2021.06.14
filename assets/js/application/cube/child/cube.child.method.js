@@ -38,17 +38,23 @@ export default {
 
         return arr
     },
-    getRandomPosition({count}){
+    getRandomPosition({count, cube}){
         const r = ~~(Math.random() * count)
         const size = count ** 2
         const dir = ~~(Math.random() * 3)
 
         switch(dir){
+            // X
             case 0:
-                return {index: Array.from({length: size}, (e, i) => r * size + i), dir}
-            case 1: 
+                cube.rotateX(r)
                 return {index: Array.from({length: size}, (e, i) => r + i * count), dir}
-            case 2: 
+            // Y
+            case 1:
+                cube.rotateY(r)
+                return {index: Array.from({length: size}, (e, i) => r * size + i), dir}
+            // Z
+            case 2:
+                cube.rotateZ(r)
                 return {index: Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count)), dir}
         }
     },
