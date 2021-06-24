@@ -19,8 +19,8 @@ export default class{
             count: 3,
             color: 'white',
             opacity: 0.5,
-            time: 600,
-            delay: 300
+            time: 500,
+            delay: 100
         }
 
         this.position = []
@@ -70,7 +70,7 @@ export default class{
         return new THREE.LineBasicMaterial({
             color: this.edge.includes(i) ? 'white' : this.param.color,
             transparent: true,
-            opacity: this.edge.includes(i) ? 0.6 : 0.25
+            opacity: this.edge.includes(i) ? 0.6 : 0.2
         })
     }
 
