@@ -40,10 +40,8 @@ export default {
     },
     getRandomPosition({count, cube}){
         const r = ~~(Math.random() * count)
-        // const r = 0
         const size = count ** 2
         const dir = ~~(Math.random() * 3)
-        // const dir = 0
 
         switch(dir){
             // X
@@ -60,7 +58,16 @@ export default {
                 return {index: Array.from({length: size}, (e, i) => ~~(i / count) * size + (i % count) + (r * count)), dir}
         }
     },
-    createCurrentPosition({count}){
-        
+    getEdges({count}){
+        const arr = Array.from({length: count}, (_, i) => Array.from({length: count ** 2}, (_, j) => i * (count ** 2) + j))
+        const edge = []
+        for(let i = 0; i < 2; i++){
+            const indexI = i * (count - 1)
+            for(let j = 0; j < 2; j++){
+                const indexJ = j * (count - 1)
+                edge.push(arr[indexI][indexJ * count], arr[indexI][indexJ * count + (count - 1)])
+            }
+        }
+        return edge
     }
 }

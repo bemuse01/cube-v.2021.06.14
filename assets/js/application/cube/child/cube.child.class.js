@@ -19,8 +19,6 @@ class Cube{
                 else this.cube[i][j * this.size + r] = temp[j][this.size - 1 - i]
             }
         }
-
-        return this
     }
 
     rotateY(r, direction = 1){
@@ -36,8 +34,6 @@ class Cube{
                 else this.cube[r][i * this.size + j] = temp[this.size - 1 - j][i]
             }
         }
-
-        return this
     }
 
     rotateZ(r, direction = 1){

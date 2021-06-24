@@ -14,8 +14,8 @@ export default class{
     // init
     init(){
         this.param = {
-            size: 100,
-            gap: 30,
+            size: 80,
+            gap: 10,
             count: 3,
             color: 'white',
             opacity: 0.5,
@@ -27,6 +27,7 @@ export default class{
         this.cube = new Cube(this.param.count)
         this.degree = 0
         this.play = false
+        this.edge = METHOD.getEdges(this.param)
     }
 
 
@@ -67,9 +68,9 @@ export default class{
     }
     createMaterial(i){
         return new THREE.LineBasicMaterial({
-            color: i === 0 || i === 9 || i === 18 ? 'red' : this.param.color,
+            color: this.edge.includes(i) ? 'white' : this.param.color,
             transparent: true,
-            opacity: this.param.opacity
+            opacity: this.edge.includes(i) ? 0.6 : 0.25
         })
     }
 
@@ -100,24 +101,24 @@ export default class{
         else group.rotation.z = degree * RADIAN
     }
     onCompleteTween(i, idx){
-        // this.local.children[i].rotation.set(0, 0, 0)
-        // console.log(i)
+        this.local.children[i].rotation.set(0, 0, 0)
+
         if(idx === this.param.count ** 2 - 1){
-            const flatten = this.cube.flatten()
+            // const flatten = this.cube.flatten()
 
-            for(let j = 0; j < this.param.count ** 3; j++){
-                const index = flatten[j]
-                const group = this.local.children.find(e => e.index === index)
-                const mesh = group.children[0]
-                const {x, y, z} = this.position[j]
+            // for(let j = 0; j < this.param.cou00000nt ** 3; j++){
+            //     const index = flatten[j]
+            //     const group = this.local.children.find(e => e.index === index)
+            //     const mesh = group.children[0]
+            //     const {x, y, z} = this.position[j]
 
-                group.rotation.set(0, 0, 0)
-                mesh.position.set(x, y, z)
-            }
+            //     group.rotation.set(0, 0, 0)
+            //     mesh.position.set(x, y, z)
+            // }
 
             this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
+
             // console.log(this.position)
-            // console.log(flatten)
             // console.log(this.cube.get())
             // console.log(this.local.children.map(e => e.index))
             // console.log(this.local.children.map(e => ({x: e.rotation.x, y: e.rotation.y, z: e.rotation.z})))
@@ -130,7 +131,7 @@ export default class{
     // animate
     animate(){
         // if(!this.play) return
-        // this.local.rotation.x += 0.005
-        // this.local.rotation.y += 0.005
+        this.local.rotation.x += 0.005
+        this.local.rotation.y += 0.005
     }
 }
