@@ -40,8 +40,10 @@ export default {
     },
     getRandomPosition({count, cube}){
         const r = ~~(Math.random() * count)
+        // const r = 0
         const size = count ** 2
         const dir = ~~(Math.random() * 3)
+        // const dir = 0
 
         switch(dir){
             // X

@@ -67,7 +67,7 @@ export default class{
     }
     createMaterial(i){
         return new THREE.LineBasicMaterial({
-            color: i === 0 ? 'red' : this.param.color,
+            color: i === 0 || i === 9 || i === 18 ? 'red' : this.param.color,
             transparent: true,
             opacity: this.param.opacity
         })
@@ -99,20 +99,29 @@ export default class{
         else if(dir === 1) group.rotation.y = degree * RADIAN
         else group.rotation.z = degree * RADIAN
     }
-    onCompleteTween(i, index){
-        this.local.children[i].rotation.set(0, 0, 0)
-        if(index === this.param.count ** 2 - 1){
-            // const flatten = this.cube.flatten()
+    onCompleteTween(i, idx){
+        // this.local.children[i].rotation.set(0, 0, 0)
+        // console.log(i)
+        if(idx === this.param.count ** 2 - 1){
+            const flatten = this.cube.flatten()
 
-            // for(let i = 0; i < this.param.count ** 3; i++){
-            //     const index = flatten[i]
-            //     const mesh = this.local.children.find(e => e.index === index).children[0]
-            //     const {x, y, z} = this.position[i]
+            for(let j = 0; j < this.param.count ** 3; j++){
+                const index = flatten[j]
+                const group = this.local.children.find(e => e.index === index)
+                const mesh = group.children[0]
+                const {x, y, z} = this.position[j]
 
-            //     mesh.position.set(x, y, z)
-            // }
+                group.rotation.set(0, 0, 0)
+                mesh.position.set(x, y, z)
+            }
 
             this.createTween(METHOD.getRandomPosition({...this, ...this.param}))
+            // console.log(this.position)
+            // console.log(flatten)
+            // console.log(this.cube.get())
+            // console.log(this.local.children.map(e => e.index))
+            // console.log(this.local.children.map(e => ({x: e.rotation.x, y: e.rotation.y, z: e.rotation.z})))
+            // console.log(this.local.children.map(e => e.children[0].position))
         }
         // this.play = true
     }
